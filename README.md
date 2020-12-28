@@ -1,2 +1,8 @@
 # u1
-U 1st stage
+Ubiquiti Inc. 1st stage home task
+
+#### Run Tests
+`gradlew clean test`
+
+#### Run locally
+`gradlew bootRun`
