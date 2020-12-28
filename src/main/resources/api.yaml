@@ -1,0 +1,24 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Network deployment
+  description: Network deployment with features
+  license:
+    name: No license
+
+servers:
+  - url: http://localhost:8765/
+
+paths:
+  /ping:
+    get:
+      summary: Ping-pong
+      operationId: pingPong
+      responses:
+        '200':
+          description: Pong with current time mills
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: 'pong 1122334455'

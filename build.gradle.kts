@@ -27,6 +27,10 @@ idea {
     }
 }
 
+springBoot {
+    mainClass.set("com.example.u1.NetworkDeploymentApplication")
+}
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -45,10 +49,44 @@ val springfoxVersion by extra("2.9.2")
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+//    SpringFox dependencies
+    implementation("io.springfox:springfox-swagger2:$springfoxVersion")
+    implementation("io.springfox:springfox-swagger-ui:$springfoxVersion")
+
+    implementation("org.openapitools:jackson-databind-nullable:0.2.1")
+//    <!-- Bean Validation API support -->
+    implementation("javax.validation:validation-api")
+    implementation("org.springframework.data:spring-data-commons")
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks {
+    getByName<Delete>("clean") {
+        delete.add("$rootDir/src/main/java-generated/com")
+    }
+
+    getByName("compileJava") {
+        dependsOn(getByName("openApiGenerate"))
+    }
+
+    named<Test>("test") {
+        useJUnitPlatform()
+    }
+}
+
+openApiValidate {
+    inputSpec.set("$rootDir/src/main/resources/api.yaml")
+}
+
+openApiGenerate {
+    inputSpec.set("$rootDir/src/main/resources/api.yaml")
+    outputDir.set("$rootDir")
+    configFile.set("$rootDir/src/main/resources/open_api_config.yaml")
+    supportingFilesConstrainedTo.add("ApiUtil.java")
 }

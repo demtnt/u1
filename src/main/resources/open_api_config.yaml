@@ -1,0 +1,10 @@
+verbose: false
+generatorName: spring
+apiPackage: "com.example.u1.api"
+modelPackage: "com.example.u1.model"
+globalProperties:
+  apis: ""
+  models: ""
+interfaceOnly: true
+dateLibrary: "java8"
+sourceFolder: "src/main/java-generated"
