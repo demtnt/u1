@@ -22,3 +22,130 @@ paths:
               schema:
                 type: string
               example: 'pong 1122334455'
+  /networkdeployment:
+    post:
+      summary: Registering a device to a network deployment
+      description: |
+        – input: deviceType, macAddress, uplinkMacAddress
+      operationId: addDevice
+      requestBody:
+        $ref: '#/components/requestBodies/registerDeviceRB'
+      responses:
+        '201':
+          description: Succesfully register new device
+        '400':
+          description: Bad input data
+    get:
+      summary: Retrieving all registered devices, sorted by device type
+      description: |
+        - output: sorted list of devices, where each entry has deviceType
+        and macAddress (sorting order: Gateway > Switch > Access Point)
+      operationId: getAll
+      responses:
+        '200':
+          $ref: '#/components/responses/listResponse'
+  /networkdeployment/{mac}:
+    get:
+      summary: Retrieving network deployment device by MAC address
+      description: |
+        - input: macAddress
+        – output: Device entry, which consists of deviceType and
+        macAddress
+      operationId: getByMac
+      parameters:
+        - $ref: "#/components/parameters/mac"
+      responses:
+        '200':
+          description: List of all devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deviceInfo'
+
+        '404':
+          $ref: '#/components/responses/NOT_FOUND_404'
+
+
+components:
+  schemas:
+    deviceType:
+      type: string
+      description: |
+        • Gateway - serves as access point to another network
+        • Switch - connects devices on a computer network
+        • Access Point - connects devices on a computer network via Wi-Fi
+      enum:
+        - Gateway
+        - Switch
+        - Access Point
+      example: 'Switch'
+    mACAddress:
+      type: string
+      example: 80-86-F2-02-A0-2G
+    device:
+      type: object
+      properties:
+        mACAddress:
+          $ref: '#/components/schemas/mACAddress'
+        deviceType:
+          $ref: '#/components/schemas/deviceType'
+        uplink:
+          $ref: '#/components/schemas/mACAddress'
+        downlink:
+          type: array
+          items:
+            $ref: '#/components/schemas/mACAddress'
+      required:
+        - mACAddress
+        - deviceType
+    deviceInfo:
+      type: object
+      properties:
+        mACAddress:
+          $ref: '#/components/schemas/mACAddress'
+        deviceType:
+          $ref: '#/components/schemas/deviceType'
+      required:
+        - mACAddress
+        - deviceType
+    registerDeviceRequest:
+      type: object
+      properties:
+        deviceType:
+          $ref: '#/components/schemas/deviceType'
+        mACAddress:
+          $ref: '#/components/schemas/mACAddress'
+        uplinkMACAddress:
+          $ref: '#/components/schemas/mACAddress'
+      required:
+        - deviceType
+        - mACAddress
+
+  parameters:
+    mac:
+      name: mac
+      in: path
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    registerDeviceRB:
+      description: |
+        JSON request body for registering new device
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/registerDeviceRequest'
+  responses:
+    listResponse:
+      description: List of all devices
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/deviceInfo'
+    NOT_FOUND_404:
+      description: Not found

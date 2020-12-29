@@ -2,6 +2,10 @@
 server:
   port: 8765
 
+logging:
+  level:
+    com.example: DEBUG
+
 springfox:
   documentation:
     swagger:

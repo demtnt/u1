@@ -1,0 +1,7 @@
+###
+GET http://localhost:8765/networkdeployment/80-86-F2-02-A0-2G
+Content-Type: application/json
+
+###
+GET http://localhost:8765/networkdeployment/NOT_FOUND_ID
+Content-Type: application/json

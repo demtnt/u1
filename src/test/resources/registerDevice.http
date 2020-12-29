@@ -1,0 +1,28 @@
+### Register device
+POST http://localhost:8765/networkdeployment
+Content-Type: application/json
+
+{
+  "deviceType": "Switch",
+  "mACAddress": "80-86-F2-02-A0-2G",
+  "uplinkMACAddress": "80-86-F2-02-A0-2G"
+}
+
+### Register device no uplink
+POST http://localhost:8765/networkdeployment
+Content-Type: application/json
+
+{
+  "deviceType": "Access Point",
+  "mACAddress": "80-86-F2-02-A0-1G"
+}
+
+### Register device no uplink
+POST http://localhost:8765/networkdeployment
+Content-Type: application/json
+
+{
+  "deviceType": "Gateway",
+  "mACAddress": "80-86-F2-02-A0-0G",
+  "uplinkMACAddress": "80-86-F2-02-A0-2G"
+}
