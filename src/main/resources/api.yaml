@@ -64,7 +64,41 @@ paths:
 
         '404':
           $ref: '#/components/responses/NOT_FOUND_404'
+  /devicetopology:
+    get:
+      summary:  Retrieving all registered network device topology
+      description: |
+        - output: Device topology as tree structure, node should be
+         represented as macAddress
+      operationId: getAllTopology
+      responses:
+        '200':
+          description: Topology of all devices
+          content:
+            text/plain:
+              schema:
+                type: string
 
+  /devicetopology/{mac}:
+    get:
+      summary:  Retrieving all registered network device topology
+      description: |
+        – input: macAddress
+        – output: Device topology where root node is device with matching
+        macAddress
+
+      operationId: getSubTreeTopology
+      parameters:
+        - $ref: "#/components/parameters/mac"
+      responses:
+        '200':
+          description: Topology of all sub tree devices
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NOT_FOUND_404'
 
 components:
   schemas:

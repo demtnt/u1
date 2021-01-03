@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @Slf4j
-public class NetworkDeploymentControllerAdvice extends ResponseEntityExceptionHandler {
+public class CommonControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeviceNotFoundException.class)
     public ResponseEntity<Object> handleDeviceNotFoundException(DeviceNotFoundException ex, WebRequest request) {
